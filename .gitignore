@@ -14,6 +14,14 @@ dist-ssr
 coverage
 *.local
 
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.staging
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -34,3 +42,11 @@ coverage
 
 # Vitest
 __screenshots__/
+
+# Vercel
+.vercel
+
+# Temporary files
+*.tmp
+*.temp
+.cache
