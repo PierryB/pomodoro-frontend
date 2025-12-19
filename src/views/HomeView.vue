@@ -2,6 +2,33 @@
   <div class="w-full min-h-screen py-8 px-4 sm:px-6 lg:px-8">
     <!-- Header -->
     <div class="max-w-7xl mx-auto mb-8">
+      <!-- User Info & Logout -->
+      <div class="flex justify-end mb-4">
+        <div class="flex items-center gap-3 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-sm border border-gray-200">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+              <span class="text-white text-sm font-bold">{{ userInitial }}</span>
+            </div>
+            <span class="text-sm font-medium text-gray-700">{{ userName }}</span>
+          </div>
+          <button
+            @click="handleLogout"
+            class="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all"
+            title="Sair"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+            <span class="hidden sm:inline">Sair</span>
+          </button>
+        </div>
+      </div>
+
       <div class="text-center mb-8">
         <h1
           class="text-5xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2 py-2 leading-tight"
@@ -219,13 +246,30 @@
 
 <script setup>
 import { onMounted, ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useTaskStore } from '@/stores/taskStore'
+import { useAuthStore } from '@/stores/authStore'
 import TaskForm from '@/components/TaskForm.vue'
 
+const router = useRouter()
 const taskStore = useTaskStore()
+const authStore = useAuthStore()
 const sortBy = ref('default')
 const showDeleteModal = ref(false)
 const taskToDelete = ref(null)
+
+// Computed properties para informações do usuário
+const userName = computed(() => authStore.currentUser?.name || authStore.currentUser?.email || 'Usuário')
+const userInitial = computed(() => {
+  const name = authStore.currentUser?.name || authStore.currentUser?.email || 'U'
+  return name.charAt(0).toUpperCase()
+})
+
+// Função de logout
+const handleLogout = () => {
+  authStore.logout()
+  router.push('/login')
+}
 
 onMounted(() => {
   taskStore.fetchTasks()
