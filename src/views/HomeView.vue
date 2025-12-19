@@ -501,7 +501,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTaskStore } from '@/stores/taskStore'
 import { useAuthStore } from '@/stores/authStore'
@@ -559,6 +559,12 @@ const availableCategories = computed(() => {
     .map(task => task.category)
     .filter(category => category && category.trim() !== '')
   return [...new Set(categories)].sort()
+})
+
+watch(availableCategories, (newCategories) => {
+  if (selectedCategory.value !== null && !newCategories.includes(selectedCategory.value)) {
+    selectedCategory.value = null
+  }
 })
 
 // Computed property para filtrar por categoria
