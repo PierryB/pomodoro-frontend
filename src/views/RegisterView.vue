@@ -174,13 +174,17 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 
 const router = useRouter()
 const authStore = useAuthStore()
 const showPassword = ref(false)
+
+onMounted(() => {
+  authStore.clearError()
+})
 
 const form = ref({
   name: '',
