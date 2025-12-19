@@ -19,13 +19,11 @@ onMounted(async () => {
 
 <template>
   <div class="min-h-screen bg-gradient-primary flex flex-col page-enter">
-    <!-- Loading inicial -->
     <div 
       v-if="isInitializing" 
       class="flex-1 flex flex-col items-center justify-center"
     >
       <div class="text-center">
-        <!-- Logo/Ícone -->
         <div class="mb-6">
           <div class="w-20 h-20 mx-auto bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl">
             <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,14 +32,12 @@ onMounted(async () => {
           </div>
         </div>
         
-        <!-- Spinner -->
         <div class="flex items-center justify-center gap-2 mb-4">
           <div class="w-3 h-3 bg-green-600 rounded-full animate-bounce"></div>
           <div class="w-3 h-3 bg-emerald-600 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
           <div class="w-3 h-3 bg-green-600 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
         </div>
         
-        <!-- Mensagem -->
         <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
           Verificando autenticação
         </h2>
@@ -51,7 +47,6 @@ onMounted(async () => {
       </div>
     </div>
 
-    <!-- Conteúdo principal -->
     <template v-else>
       <RouterView class="flex-1" />
       <AppFooter 

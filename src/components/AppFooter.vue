@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col items-center justify-center gap-6">
          <div class="flex items-center gap-3">
-           <ClipboardIcon :size="32" color="white" />
+           <ClipboardDocumentListIcon class="w-8 h-8 text-white" />
            <span class="text-2xl font-bold">Taskfy</span>
          </div>
 
@@ -20,7 +20,7 @@
              style="transition: transform 300ms, opacity 300ms;"
              title="GitHub"
            >
-             <GithubIcon :size="24" color="white" />
+             <GithubIcon class="w-6 h-6 text-white" />
              <span class="text-base font-semibold">GitHub</span>
            </a>
 
@@ -32,7 +32,7 @@
              style="transition: transform 300ms, opacity 300ms;"
              title="LinkedIn"
            >
-             <LinkedinIcon :size="24" color="white" />
+             <LinkedinIcon class="w-6 h-6 text-white" />
              <span class="text-base font-semibold">LinkedIn</span>
            </a>
 
@@ -42,9 +42,7 @@
              style="transition: transform 300ms, opacity 300ms;"
              title="E-mail"
            >
-             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-             </svg>
+             <EnvelopeIcon class="w-6 h-6 text-white" />
              <span class="text-base font-semibold">E-mail</span>
            </a>
          </div>
@@ -61,7 +59,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import ClipboardIcon from '@/components/icons/ClipboardIcon.vue'
+import { ClipboardDocumentListIcon, EnvelopeIcon } from '@heroicons/vue/24/outline'
 import GithubIcon from '@/components/icons/GithubIcon.vue'
 import LinkedinIcon from '@/components/icons/LinkedinIcon.vue'
 

@@ -6,8 +6,8 @@
     <div class="w-full max-w-md">
       <div class="text-center mb-8 animate-fade-in">
         <div class="inline-block mb-4">
-          <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl shadow-2xl flex items-center justify-center transform hover:scale-110 transition-transform duration-300">
-            <ClipboardIcon :size="48" color="white" />
+          <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl shadow-2xl flex items-center justify-center">
+            <ClipboardDocumentListIcon class="w-12 h-12 text-white" />
           </div>
         </div>
         <h1 class="text-4xl font-extrabold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-2 pb-2 leading-tight">
@@ -91,7 +91,7 @@
             <span v-if="authStore.loading" class="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
             <span v-if="authStore.loading">Entrando...</span>
             <template v-else>
-              <LoginIcon :size="20" color="white" />
+              <ArrowRightOnRectangleIcon class="w-5 h-5" />
               <span>Entrar</span>
             </template>
           </button>
@@ -112,7 +112,7 @@
           style="transition: opacity 200ms;"
         >
           <span class="flex items-center justify-center gap-2">
-            <UserPlusIcon :size="20" color="currentColor" />
+            <UserPlusIcon class="w-5 h-5" />
             <span>Criar uma conta</span>
           </span>
         </router-link>
@@ -125,9 +125,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
-import ClipboardIcon from '@/components/icons/ClipboardIcon.vue'
-import LoginIcon from '@/components/icons/LoginIcon.vue'
-import UserPlusIcon from '@/components/icons/UserPlusIcon.vue'
+import { ClipboardDocumentListIcon, ArrowRightOnRectangleIcon, UserPlusIcon } from '@heroicons/vue/24/outline'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 
 const router = useRouter()
