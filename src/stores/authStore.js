@@ -5,9 +5,10 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:7283/api'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: null,
+    user: JSON.parse(localStorage.getItem('user') || 'null'),
     token: localStorage.getItem('token') || null,
     loading: false,
+    initializing: true,
     error: null
   }),
 
@@ -34,6 +35,7 @@ export const useAuthStore = defineStore('auth', {
         }
         
         localStorage.setItem('token', this.token)
+        localStorage.setItem('user', JSON.stringify(this.user))
         this.setAuthHeader()
         
         return true
@@ -61,6 +63,7 @@ export const useAuthStore = defineStore('auth', {
         }
         
         localStorage.setItem('token', this.token)
+        localStorage.setItem('user', JSON.stringify(this.user))
         this.setAuthHeader()
         
         return true
@@ -76,6 +79,7 @@ export const useAuthStore = defineStore('auth', {
       this.token = null
       this.user = null
       localStorage.removeItem('token')
+      localStorage.removeItem('user')
       delete axios.defaults.headers.common['Authorization']
     },
 
@@ -92,6 +96,7 @@ export const useAuthStore = defineStore('auth', {
             email: response.data.email,
             name: response.data.name
           }
+          localStorage.setItem('user', JSON.stringify(this.user))
           return true
         } catch {
           this.logout()
@@ -100,9 +105,14 @@ export const useAuthStore = defineStore('auth', {
     },
   
     async initAuth() {
-        if (this.token) {
-            this.setAuthHeader()
-            await this.fetchProfile()
+        this.initializing = true
+        try {
+            if (this.token) {
+                this.setAuthHeader()
+                await this.fetchProfile()
+            }
+        } finally {
+            this.initializing = false
         }
     },
 

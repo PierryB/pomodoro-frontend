@@ -1,19 +1,19 @@
 <template>
   <div
-    class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-100 sticky top-8"
+    class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 sticky top-8"
   >
     <div class="flex items-center gap-2 mb-6">
       <div
-        class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center"
+        class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center"
       >
-        <span class="text-2xl">✨</span>
+        <ClipboardIcon :size="24" color="white" />
       </div>
-      <h2 class="text-2xl font-bold text-gray-800">Nova Tarefa</h2>
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Nova Tarefa</h2>
     </div>
 
     <form @submit.prevent="handleSubmit" class="space-y-5">
       <div>
-        <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+        <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
           <span class="text-lg">📝</span>
           Título *
         </label>
@@ -21,26 +21,28 @@
           v-model="form.title"
           type="text"
           required
-          class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none bg-gray-50 focus:bg-white"
+          class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-1 focus:ring-green-500/30 focus:border-green-500 outline-none bg-gray-50 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 text-gray-900 dark:text-gray-100"
+          style="transition: box-shadow 200ms;"
           placeholder="Ex: Estudos"
         />
       </div>
 
       <div>
-        <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+        <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
           <span class="text-lg">💭</span>
           Descrição
         </label>
         <textarea
           v-model="form.description"
           rows="3"
-          class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none resize-none bg-gray-50 focus:bg-white"
+          class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-1 focus:ring-green-500/30 focus:border-green-500 outline-none resize-none bg-gray-50 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 text-gray-900 dark:text-gray-100"
+          style="transition: box-shadow 200ms;"
           placeholder="Detalhes sobre sua tarefa..."
         ></textarea>
       </div>
 
       <div>
-        <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+        <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
           <span class="text-lg">🏷️</span>
           Categoria
         </label>
@@ -49,7 +51,8 @@
             v-model="form.category"
             type="text"
             list="categories"
-            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none bg-gray-50 focus:bg-white"
+            class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-1 focus:ring-green-500/30 focus:border-green-500 outline-none bg-gray-50 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 text-gray-900 dark:text-gray-100"
+            style="transition: box-shadow 200ms;"
             placeholder="Ex: Trabalho, Estudos, Pessoal..."
           />
           <datalist id="categories">
@@ -71,10 +74,10 @@
               type="button"
               @click="form.category = cat.name"
               :class="[
-                'px-3 py-1.5 rounded-lg text-xs font-medium transition-all border-2',
+                'px-3 py-1.5 rounded-lg text-xs font-medium border-2',
                 form.category === cat.name
-                  ? 'bg-indigo-500 text-white border-indigo-500 shadow-md'
-                  : 'bg-white border-gray-200 text-gray-600 hover:border-indigo-200 hover:bg-indigo-50'
+                  ? 'bg-green-500 text-white border-green-500 shadow-md'
+                  : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-green-200 hover:bg-green-50 dark:hover:bg-green-900/20'
               ]"
             >
               {{ cat.emoji }} {{ cat.name }}
@@ -84,19 +87,19 @@
       </div>
 
       <div>
-        <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+        <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
           <span class="text-lg">🎯</span>
-          Prioridade
+          Prioridade *
         </label>
         <div class="grid grid-cols-3 gap-2">
           <button
             type="button"
             @click="form.priority = 'Low'"
             :class="[
-              'py-3 px-2 rounded-xl font-medium text-sm transition-all border-2',
+              'py-3 px-2 rounded-xl font-medium text-sm border-2',
               form.priority === 'Low'
                 ? 'bg-emerald-500 text-white border-emerald-500 shadow-lg scale-105'
-                : 'bg-white border-gray-200 text-gray-700 hover:border-emerald-300 hover:bg-emerald-50',
+                : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20',
             ]"
           >
             🌱 Baixa
@@ -105,10 +108,10 @@
             type="button"
             @click="form.priority = 'Medium'"
             :class="[
-              'py-3 px-2 rounded-xl font-medium text-sm transition-all border-2',
+              'py-3 px-2 rounded-xl font-medium text-sm border-2',
               form.priority === 'Medium'
                 ? 'bg-amber-500 text-white border-amber-500 shadow-lg scale-105'
-                : 'bg-white border-gray-200 text-gray-700 hover:border-amber-300 hover:bg-amber-50',
+                : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900/20',
             ]"
           >
             ⚡ Média
@@ -117,10 +120,10 @@
             type="button"
             @click="form.priority = 'High'"
             :class="[
-              'py-3 px-2 rounded-xl font-medium text-sm transition-all border-2',
+              'py-3 px-2 rounded-xl font-medium text-sm border-2',
               form.priority === 'High'
                 ? 'bg-red-500 text-white border-red-500 shadow-lg scale-105'
-                : 'bg-white border-gray-200 text-gray-700 hover:border-red-300 hover:bg-red-50',
+                : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-red-300 hover:bg-red-50 dark:hover:bg-red-900/20',
             ]"
           >
             🔥 Alta
@@ -131,7 +134,8 @@
       <button
         type="submit"
         :disabled="loading"
-        class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-bold text-lg hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
+        class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
+        style="transition: box-shadow 200ms, transform 200ms, opacity 200ms;"
       >
         <span v-if="loading" class="flex items-center justify-center gap-2">
           <span
@@ -140,7 +144,7 @@
           Criando...
         </span>
         <span v-else class="flex items-center justify-center gap-2">
-          <span>➕</span>
+          <span>+</span>
           Criar Tarefa
         </span>
       </button>
@@ -151,6 +155,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useTaskStore } from '@/stores/taskStore'
+import ClipboardIcon from '@/components/icons/ClipboardIcon.vue'
 
 const taskStore = useTaskStore()
 const loading = ref(false)
