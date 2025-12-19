@@ -53,7 +53,7 @@
               @click="handleDelete"
               :disabled="loading"
               class="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl font-semibold hover:from-red-600 hover:to-red-700 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              style="transition: box-shadow 200ms, transform 200ms, opacity 200ms;"
+              style="transition: box-shadow 200ms, opacity 200ms;"
             >
               <span v-if="loading" class="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
               <span v-if="loading">Excluindo...</span>

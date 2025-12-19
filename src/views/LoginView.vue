@@ -85,7 +85,8 @@
           <button
             type="submit"
             :disabled="authStore.loading"
-            class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg hover:from-green-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+            class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            style="transition: box-shadow 200ms, opacity 200ms;"
           >
             <span v-if="authStore.loading" class="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
             <span v-if="authStore.loading">Entrando...</span>
@@ -107,7 +108,8 @@
 
         <router-link
           to="/register"
-          class="block w-full text-center py-4 px-4 border-2 border-green-200 dark:border-green-700 text-green-600 dark:text-green-400 rounded-xl font-bold text-lg hover:bg-green-50 dark:hover:bg-green-900/20 hover:border-green-300 dark:hover:border-green-600 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+          class="block w-full text-center py-4 px-4 border-2 border-green-200 dark:border-green-700 text-green-600 dark:text-green-400 rounded-xl font-bold text-lg hover:bg-green-50 dark:hover:bg-green-900/20 hover:border-green-300 dark:hover:border-green-600"
+          style="transition: opacity 200ms;"
         >
           <span class="flex items-center justify-center gap-2">
             <UserPlusIcon :size="20" color="currentColor" />

@@ -11,7 +11,7 @@
           Organize suas tarefas com estilo e produtividade
         </p>
 
-         <div class="flex items-center gap-4">
+         <div class="flex flex-wrap items-center justify-center gap-4">
            <a
              :href="props.githubUrl"
              target="_blank"
@@ -34,6 +34,18 @@
            >
              <LinkedinIcon :size="24" color="white" />
              <span class="text-base font-semibold">LinkedIn</span>
+           </a>
+
+           <a
+             :href="`mailto:${props.email}`"
+             class="group flex items-center gap-3 px-5 py-3 hover:bg-white/20 rounded-lg transform hover:scale-105 text-white hover:text-white"
+             style="transition: transform 300ms, opacity 300ms;"
+             title="E-mail"
+           >
+             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+             </svg>
+             <span class="text-base font-semibold">E-mail</span>
            </a>
          </div>
 
@@ -61,6 +73,10 @@ const props = defineProps({
   linkedinUrl: {
     type: String,
     default: 'https://linkedin.com/in/seu-perfil'
+  },
+  email: {
+    type: String,
+    default: 'seu-email@exemplo.com'
   }
 })
 
