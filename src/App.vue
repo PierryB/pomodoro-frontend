@@ -57,6 +57,7 @@ onMounted(async () => {
       <AppFooter 
         githubUrl="https://github.com/PierryB"
         linkedinUrl="https://linkedin.com/in/pierryb"
+        email="pierryboettscherdev@gmail.com"
       />
     </template>
     

@@ -134,8 +134,8 @@
       <button
         type="submit"
         :disabled="loading"
-        class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
-        style="transition: box-shadow 200ms, transform 200ms, opacity 200ms;"
+        class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+        style="transition: box-shadow 200ms, opacity 200ms;"
       >
         <span v-if="loading" class="flex items-center justify-center gap-2">
           <span

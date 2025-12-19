@@ -171,7 +171,7 @@
                 type="submit"
                 :disabled="loading"
                 class="flex-1 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                style="transition: box-shadow 200ms, transform 200ms, opacity 200ms;"
+                style="transition: box-shadow 200ms, opacity 200ms;"
               >
                 <span v-if="loading" class="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                 <span v-if="loading">Salvando...</span>
