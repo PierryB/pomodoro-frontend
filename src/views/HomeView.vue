@@ -6,9 +6,8 @@
         
         <div class="flex-1 text-center">
           <div class="flex items-center justify-center gap-3 mb-2">
-            <ClipboardIcon 
-              :size="40" 
-              class="text-green-600"
+            <ClipboardDocumentListIcon 
+              class="w-10 h-10 text-green-600"
             />
             <h1
               class="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent py-2 leading-tight"
@@ -174,7 +173,6 @@
                     ]"
                     style="transition: opacity 200ms, box-shadow 200ms, transform 200ms;"
                   />
-                  <!-- Loading spinner -->
                   <div 
                     v-if="isTaskLoading(task.id)"
                     class="absolute inset-0 flex items-center justify-center"
@@ -301,7 +299,7 @@ import { useAuthStore } from '@/stores/authStore'
 import TaskForm from '@/components/TaskForm.vue'
 import TaskEditModal from '@/components/TaskEditModal.vue'
 import TaskDeleteModal from '@/components/TaskDeleteModal.vue'
-import ClipboardIcon from '@/components/icons/ClipboardIcon.vue'
+import { ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 
 const router = useRouter()

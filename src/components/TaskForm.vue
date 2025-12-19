@@ -6,7 +6,7 @@
       <div
         class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center"
       >
-        <ClipboardIcon :size="24" color="white" />
+        <ClipboardDocumentListIcon class="w-6 h-6 text-white" />
       </div>
       <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Nova Tarefa</h2>
     </div>
@@ -66,7 +66,6 @@
             <option value="Família"></option>
           </datalist>
           
-          <!-- Categorias Rápidas -->
           <div class="flex flex-wrap gap-2">
             <button
               v-for="cat in quickCategories"
@@ -155,12 +154,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useTaskStore } from '@/stores/taskStore'
-import ClipboardIcon from '@/components/icons/ClipboardIcon.vue'
+import { ClipboardDocumentListIcon } from '@heroicons/vue/24/outline'
 
 const taskStore = useTaskStore()
 const loading = ref(false)
 
-// Categorias rápidas com emojis
 const quickCategories = [
   { name: 'Trabalho', emoji: '💼' },
   { name: 'Estudos', emoji: '📚' },
@@ -181,7 +179,6 @@ const handleSubmit = async () => {
   loading.value = true
   try {
     await taskStore.createTask(form.value)
-    // Limpar formulário
     form.value = {
       title: '',
       description: '',

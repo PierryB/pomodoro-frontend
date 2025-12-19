@@ -1,11 +1,9 @@
 <template>
   <div class="space-y-4">
-    <!-- Cabeçalho -->
     <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">
       Minhas Tarefas
     </h2>
     
-    <!-- Loading -->
     <div v-if="taskStore.loading" class="text-center py-8">
       <div class="inline-flex items-center gap-2">
         <div class="w-2 h-2 bg-primary-600 rounded-full animate-bounce"></div>
@@ -15,7 +13,6 @@
       <p class="text-gray-600 dark:text-gray-400 mt-4">Carregando tarefas...</p>
     </div>
 
-    <!-- Lista de Tarefas -->
     <div v-else class="space-y-3">
       <div
         v-for="task in taskStore.tasks"
@@ -23,7 +20,6 @@
         class="card-hover p-4 animate-fade-in"
       >
         <div class="flex items-center justify-between">
-          <!-- Checkbox e Conteúdo -->
           <div class="flex items-center gap-3 flex-1">
             <input
               type="checkbox"
@@ -49,7 +45,6 @@
             </div>
           </div>
           
-          <!-- Badge e Ações -->
           <div class="flex items-center gap-2">
             <span :class="['badge', priorityClass(task.priority)]">
               {{ priorityEmoji(task.priority) }} {{ priorityLabel(task.priority) }}
@@ -65,7 +60,6 @@
         </div>
       </div>
 
-      <!-- Empty State -->
       <div 
         v-if="taskStore.tasks.length === 0" 
         class="card text-center py-12"
@@ -105,7 +99,6 @@ const deleteTask = async (id) => {
   }
 }
 
-// Classes de prioridade usando as novas classes utilitárias
 const priorityClass = (priority) => {
   const classes = {
     High: 'badge-error',
@@ -115,7 +108,6 @@ const priorityClass = (priority) => {
   return classes[priority] || 'badge-primary'
 }
 
-// Emojis de prioridade
 const priorityEmoji = (priority) => {
   const emojis = {
     High: '🔥',
@@ -125,7 +117,6 @@ const priorityEmoji = (priority) => {
   return emojis[priority] || '📌'
 }
 
-// Labels traduzidas
 const priorityLabel = (priority) => {
   const labels = {
     High: 'Alta',
@@ -137,7 +128,6 @@ const priorityLabel = (priority) => {
 </script>
 
 <style scoped>
-/* Animação de entrada com delay */
 .animate-fade-in:nth-child(1) { animation-delay: 0s; }
 .animate-fade-in:nth-child(2) { animation-delay: 0.05s; }
 .animate-fade-in:nth-child(3) { animation-delay: 0.1s; }

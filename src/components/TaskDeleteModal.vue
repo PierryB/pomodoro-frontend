@@ -11,7 +11,6 @@
           style="transition: transform 300ms, opacity 300ms;"
           @click.stop
         >
-          <!-- Ícone -->
           <div class="flex justify-center mb-4">
             <div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
               <svg
@@ -30,7 +29,6 @@
             </div>
           </div>
 
-          <!-- Título e Descrição -->
           <div class="text-center mb-6">
             <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Excluir Tarefa?</h3>
             <p class="text-gray-600 dark:text-gray-400">
@@ -39,7 +37,6 @@
             </p>
           </div>
 
-          <!-- Botões -->
           <div class="flex gap-3">
             <button
               @click="closeModal"

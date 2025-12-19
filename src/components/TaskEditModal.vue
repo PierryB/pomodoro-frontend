@@ -11,7 +11,6 @@
           style="transition: transform 300ms, opacity 300ms;"
           @click.stop
         >
-          <!-- Header -->
           <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-3">
               <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
@@ -32,9 +31,7 @@
             </button>
           </div>
 
-          <!-- Form -->
           <form @submit.prevent="handleSubmit" class="space-y-5">
-            <!-- Título -->
             <div>
               <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 <span class="text-lg">📝</span>
@@ -50,7 +47,6 @@
               />
             </div>
 
-            <!-- Descrição -->
             <div>
               <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 <span class="text-lg">💭</span>
@@ -65,7 +61,6 @@
               ></textarea>
             </div>
 
-            <!-- Categoria -->
             <div>
               <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 <span class="text-lg">🏷️</span>
@@ -91,7 +86,6 @@
                   <option value="Família"></option>
                 </datalist>
                 
-                <!-- Categorias Rápidas -->
                 <div class="flex flex-wrap gap-2">
                   <button
                     v-for="cat in quickCategories"
@@ -111,7 +105,6 @@
               </div>
             </div>
 
-            <!-- Prioridade -->
             <div>
               <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 <span class="text-lg">🎯</span>
@@ -157,7 +150,6 @@
               </div>
             </div>
 
-            <!-- Botões -->
             <div class="flex gap-3 pt-4">
               <button
                 type="button"
