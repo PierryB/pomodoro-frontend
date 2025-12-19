@@ -87,6 +87,7 @@ export const useAuthStore = defineStore('auth', {
 
     async fetchProfile() {
       try {
+        // Tenta buscar o perfil da API
         const response = await axios.get(`${API_URL}/auth/me`)
         this.user = {
           email: response.data.email,
@@ -94,7 +95,19 @@ export const useAuthStore = defineStore('auth', {
         }
         return true
       } catch {
-        // Token inválido ou expirado - fazer logout
+        // Se o endpoint não existir ou token inválido, tenta decodificar o JWT
+        try {
+          const payload = JSON.parse(atob(this.token.split('.')[1]))
+          if (payload.email || payload.name) {
+            this.user = {
+              email: payload.email || payload.sub || '',
+              name: payload.name || payload.email || ''
+            }
+            return true
+          }
+        } catch {
+          // Token inválido - fazer logout
+        }
         this.logout()
         return false
       }
