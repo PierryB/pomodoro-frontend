@@ -118,6 +118,10 @@ export const useAuthStore = defineStore('auth', {
         this.setAuthHeader()
         await this.fetchProfile()
       }
+    },
+
+    clearError() {
+      this.error = null
     }
   }
 })
