@@ -1,4 +1,4 @@
-# 📋 Task Manager - Pomodoro Frontend
+# 📋 Taskfy - Gerenciador de Tarefas Moderno
 
 <div align="center">
 
@@ -17,7 +17,7 @@
 
 ## 📋 Sobre o Projeto
 
-Este projeto é um **gerenciador de tarefas moderno e intuitivo** desenvolvido para demonstrar proficiência em **Vue.js 3** e suas tecnologias relacionadas. A aplicação oferece uma experiência de usuário fluida com interface responsiva, integração completa com API RESTful e gerenciamento de estado robusto.
+**Taskfy** é um **gerenciador de tarefas moderno e intuitivo** desenvolvido para demonstrar proficiência em **Vue.js 3** e suas tecnologias relacionadas. A aplicação oferece uma experiência de usuário fluida com interface responsiva, integração completa com API RESTful e gerenciamento de estado robusto.
 
 ### 🎯 Objetivo
 
@@ -196,8 +196,8 @@ export const taskService = {
 1. **Clone o repositório**
 
 ```bash
-git clone https://github.com/seu-usuario/pomodoro-frontend.git
-cd pomodoro-frontend
+git clone https://github.com/PierryB/taskfy-frontend.git
+cd taskfy-frontend
 ```
 
 2. **Instale as dependências**
@@ -380,6 +380,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 **⭐ Se este projeto te ajudou, considere dar uma estrela!**
 
-Feito com ❤️ e Vue.js
+Desenvolvido por **Pierry Boettscher** | Feito com ❤️ e Vue.js
 
 </div>

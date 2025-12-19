@@ -1,90 +1,136 @@
 <template>
-    <div class="space-y-4">
-      <h2 class="text-2xl font-bold text-gray-800">Minhas Tarefas</h2>
-      
-      <div v-if="taskStore.loading" class="text-center py-8">
-        <p class="text-gray-500">Carregando...</p>
+  <div class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">
+      Minhas Tarefas
+    </h2>
+    
+    <div v-if="taskStore.loading" class="text-center py-8">
+      <div class="inline-flex items-center gap-2">
+        <div class="w-2 h-2 bg-primary-600 rounded-full animate-bounce"></div>
+        <div class="w-2 h-2 bg-secondary-600 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+        <div class="w-2 h-2 bg-primary-600 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
       </div>
-  
-      <div v-else class="space-y-2">
-        <div
-          v-for="task in taskStore.tasks"
-          :key="task.id"
-          class="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow"
-        >
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-              <input
-                type="checkbox"
-                :checked="task.isCompleted"
-                @change="toggleTask(task)"
-                class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
-              />
-              <div>
-                <h3
-                  :class="['font-medium', task.isCompleted ? 'line-through text-gray-400' : 'text-gray-800']"
-                >
-                  {{ task.title }}
-                </h3>
-                <p class="text-sm text-gray-500">{{ task.description }}</p>
-              </div>
-            </div>
-            
-            <div class="flex items-center space-x-2">
-              <span
+      <p class="text-gray-600 dark:text-gray-400 mt-4">Carregando tarefas...</p>
+    </div>
+
+    <div v-else class="space-y-3">
+      <div
+        v-for="task in taskStore.tasks"
+        :key="task.id"
+        class="card-hover p-4 animate-fade-in"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3 flex-1">
+            <input
+              type="checkbox"
+              :checked="task.isCompleted"
+              @change="toggleTask(task)"
+              class="w-5 h-5 text-green-600 rounded-md focus:ring-2 focus:ring-green-500 focus:ring-offset-2 cursor-pointer"
+              style="transition: box-shadow 200ms, transform 200ms;"
+            />
+            <div class="flex-1">
+              <h3
                 :class="[
-                  'px-3 py-1 rounded-full text-xs font-semibold',
-                  priorityClass(task.priority)
+                  'font-semibold',
+                  task.isCompleted
+                    ? 'line-through text-gray-400 dark:text-gray-500'
+                    : 'text-gray-800 dark:text-gray-200'
                 ]"
               >
-                {{ task.priority }}
-              </span>
-              <button
-                @click="deleteTask(task.id)"
-                class="text-red-500 hover:text-red-700"
-              >
-                Deletar
-              </button>
+                {{ task.title }}
+              </h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                {{ task.description }}
+              </p>
             </div>
           </div>
-        </div>
-  
-        <div v-if="taskStore.tasks.length === 0" class="text-center py-8">
-          <p class="text-gray-500">Nenhuma tarefa cadastrada</p>
+          
+          <div class="flex items-center gap-2">
+            <span :class="['badge', priorityClass(task.priority)]">
+              {{ priorityEmoji(task.priority) }} {{ priorityLabel(task.priority) }}
+            </span>
+            <button
+              @click="deleteTask(task.id)"
+              class="btn-danger px-3 py-1.5 text-sm"
+              title="Deletar tarefa"
+            >
+              🗑️
+            </button>
+          </div>
         </div>
       </div>
+
+      <div 
+        v-if="taskStore.tasks.length === 0" 
+        class="card text-center py-12"
+      >
+        <div class="text-6xl mb-4">📝</div>
+        <p class="text-gray-600 dark:text-gray-300 text-lg font-medium mb-2">
+          Nenhuma tarefa cadastrada
+        </p>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">
+          Comece adicionando sua primeira tarefa!
+        </p>
+      </div>
     </div>
-  </template>
-  
-  <script setup>
-  import { onMounted } from 'vue'
-  import { useTaskStore } from '@/stores/taskStore'
-  
-  const taskStore = useTaskStore()
-  
-  onMounted(() => {
-    taskStore.fetchTasks()
+  </div>
+</template>
+
+<script setup>
+import { onMounted } from 'vue'
+import { useTaskStore } from '@/stores/taskStore'
+
+const taskStore = useTaskStore()
+
+onMounted(() => {
+  taskStore.fetchTasks()
+})
+
+const toggleTask = async (task) => {
+  await taskStore.updateTask(task.id, {
+    ...task,
+    isCompleted: !task.isCompleted
   })
-  
-  const toggleTask = async (task) => {
-    await taskStore.updateTask(task.id, {
-      ...task,
-      isCompleted: !task.isCompleted
-    })
+}
+
+const deleteTask = async (id) => {
+  if (confirm('Deseja realmente deletar esta tarefa?')) {
+    await taskStore.deleteTask(id)
   }
-  
-  const deleteTask = async (id) => {
-    if (confirm('Deseja realmente deletar esta tarefa?')) {
-      await taskStore.deleteTask(id)
-    }
+}
+
+const priorityClass = (priority) => {
+  const classes = {
+    High: 'badge-error',
+    Medium: 'badge-warning',
+    Low: 'badge-success'
   }
-  
-  const priorityClass = (priority) => {
-    const classes = {
-      High: 'bg-red-100 text-red-800',
-      Medium: 'bg-yellow-100 text-yellow-800',
-      Low: 'bg-green-100 text-green-800'
-    }
-    return classes[priority] || 'bg-gray-100 text-gray-800'
+  return classes[priority] || 'badge-primary'
+}
+
+const priorityEmoji = (priority) => {
+  const emojis = {
+    High: '🔥',
+    Medium: '⚡',
+    Low: '🌱'
   }
-  </script>
+  return emojis[priority] || '📌'
+}
+
+const priorityLabel = (priority) => {
+  const labels = {
+    High: 'Alta',
+    Medium: 'Média',
+    Low: 'Baixa'
+  }
+  return labels[priority] || priority
+}
+</script>
+
+<style scoped>
+.animate-fade-in:nth-child(1) { animation-delay: 0s; }
+.animate-fade-in:nth-child(2) { animation-delay: 0.05s; }
+.animate-fade-in:nth-child(3) { animation-delay: 0.1s; }
+.animate-fade-in:nth-child(4) { animation-delay: 0.15s; }
+.animate-fade-in:nth-child(5) { animation-delay: 0.2s; }
+</style>
