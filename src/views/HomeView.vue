@@ -226,6 +226,7 @@
             </div>
           </div>
 
+          <!-- Estado vazio: nenhuma tarefa criada -->
           <div
             v-if="taskStore.tasks.length === 0"
             class="text-center py-16 bg-white/50 backdrop-blur-sm rounded-2xl border-2 border-dashed border-gray-200"
@@ -233,6 +234,22 @@
             <div class="text-6xl mb-4">📝</div>
             <p class="text-gray-600 text-lg font-medium mb-2">Nenhuma tarefa ainda</p>
             <p class="text-gray-500 text-sm">Comece adicionando sua primeira tarefa!</p>
+          </div>
+
+          <!-- Estado vazio: filtro sem resultados -->
+          <div
+            v-else-if="sortedTasks.length === 0"
+            class="text-center py-16 bg-white/50 backdrop-blur-sm rounded-2xl border-2 border-dashed border-gray-200"
+          >
+            <div class="text-6xl mb-4">🔍</div>
+            <p class="text-gray-600 text-lg font-medium mb-2">Nenhuma tarefa encontrada</p>
+            <p class="text-gray-500 text-sm">Não há tarefas na categoria "{{ selectedCategory }}"</p>
+            <button
+              @click="selectedCategory = null"
+              class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-all"
+            >
+              Ver todas as tarefas
+            </button>
           </div>
         </div>
       </div>
