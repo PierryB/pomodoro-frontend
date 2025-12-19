@@ -226,6 +226,7 @@
             </div>
           </div>
 
+          <!-- Estado vazio: nenhuma tarefa criada -->
           <div
             v-if="taskStore.tasks.length === 0"
             class="text-center py-16 bg-white/50 backdrop-blur-sm rounded-2xl border-2 border-dashed border-gray-200"
