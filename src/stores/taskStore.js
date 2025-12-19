@@ -11,7 +11,13 @@ export const useTaskStore = defineStore('task', {
   getters: {
     completedTasks: (state) => state.tasks.filter(t => t.isCompleted),
     pendingTasks: (state) => state.tasks.filter(t => !t.isCompleted),
-    highPriorityTasks: (state) => state.tasks.filter(t => t.priority === 'High')
+    highPriorityTasks: (state) => state.tasks.filter(t => t.priority === 'High'),
+    categories: (state) => {
+      const cats = state.tasks
+        .map(t => t.category)
+        .filter(c => c && c.trim() !== '')
+      return [...new Set(cats)].sort()
+    }
   },
 
   actions: {

@@ -54,7 +54,7 @@
             <span
               class="text-sm font-normal text-gray-500 bg-white px-3 py-1 rounded-full shadow-sm"
             >
-              {{ taskStore.tasks.length }}
+              {{ filteredTasks.length }}
             </span>
           </h2>
           
@@ -93,6 +93,40 @@
               ]"
             >
               ⭐ Prioridade
+            </button>
+          </div>
+        </div>
+
+        <!-- Filtros de Categoria -->
+        <div v-if="availableCategories.length > 0" class="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-3 flex-wrap">
+            <span class="text-sm font-semibold text-gray-700 flex items-center gap-1">
+              <span>🏷️</span>
+              Filtrar por categoria:
+            </span>
+            <button
+              @click="selectedCategory = null"
+              :class="[
+                'px-3 py-1.5 rounded-lg text-sm font-medium transition-all',
+                selectedCategory === null
+                  ? 'bg-indigo-500 text-white shadow-md'
+                  : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+              ]"
+            >
+              📂 Todas
+            </button>
+            <button
+              v-for="category in availableCategories"
+              :key="category"
+              @click="selectedCategory = category"
+              :class="[
+                'px-3 py-1.5 rounded-lg text-sm font-medium transition-all',
+                selectedCategory === category
+                  ? 'bg-indigo-500 text-white shadow-md'
+                  : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+              ]"
+            >
+              {{ getCategoryEmoji(category) }} {{ category }}
             </button>
           </div>
         </div>
@@ -142,6 +176,12 @@
                   <p class="text-sm text-gray-600 mb-2 line-clamp-2">{{ task.description }}</p>
                   <div class="flex items-center gap-2 flex-wrap">
                     <span
+                      v-if="task.category"
+                      class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 transition-all"
+                    >
+                      {{ getCategoryEmoji(task.category) }} {{ task.category }}
+                    </span>
+                    <span
                       :class="[
                         'inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold transition-all',
                         priorityClass(task.priority),
@@ -153,20 +193,36 @@
                 </div>
               </div>
 
-              <button
-                @click="deleteTask(task)"
-                class="flex-shrink-0 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200 opacity-0 group-hover:opacity-100"
-                title="Deletar tarefa"
-              >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
-              </button>
+              <div class="flex-shrink-0 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <button
+                  @click="editTask(task)"
+                  class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                  title="Editar tarefa"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  @click="deleteTask(task)"
+                  class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                  title="Deletar tarefa"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -242,6 +298,190 @@
       </div>
     </Transition>
   </Teleport>
+
+  <!-- Modal de Edição de Tarefa -->
+  <Teleport to="body">
+    <Transition name="modal">
+      <div
+        v-if="showEditModal"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm overflow-y-auto"
+        @click.self="showEditModal = false"
+      >
+        <div
+          class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 transform transition-all my-8"
+          @click.stop
+        >
+          <!-- Header -->
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900">Editar Tarefa</h3>
+            </div>
+            <button
+              @click="showEditModal = false"
+              class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Form -->
+          <form @submit.prevent="saveEdit" class="space-y-5">
+            <!-- Título -->
+            <div>
+              <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                <span class="text-lg">📝</span>
+                Título *
+              </label>
+              <input
+                v-model="editForm.title"
+                type="text"
+                required
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none bg-gray-50 focus:bg-white"
+                placeholder="Ex: Estudos"
+              />
+            </div>
+
+            <!-- Descrição -->
+            <div>
+              <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                <span class="text-lg">💭</span>
+                Descrição
+              </label>
+              <textarea
+                v-model="editForm.description"
+                rows="3"
+                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none resize-none bg-gray-50 focus:bg-white"
+                placeholder="Detalhes sobre sua tarefa..."
+              ></textarea>
+            </div>
+
+            <!-- Categoria -->
+            <div>
+              <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                <span class="text-lg">🏷️</span>
+                Categoria
+              </label>
+              <div class="space-y-3">
+                <input
+                  v-model="editForm.category"
+                  type="text"
+                  list="edit-categories"
+                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none bg-gray-50 focus:bg-white"
+                  placeholder="Ex: Trabalho, Estudos, Pessoal..."
+                />
+                <datalist id="edit-categories">
+                  <option value="Trabalho"></option>
+                  <option value="Estudos"></option>
+                  <option value="Pessoal"></option>
+                  <option value="Saúde"></option>
+                  <option value="Financeiro"></option>
+                  <option value="Casa"></option>
+                  <option value="Lazer"></option>
+                  <option value="Família"></option>
+                </datalist>
+                
+                <!-- Categorias Rápidas -->
+                <div class="flex flex-wrap gap-2">
+                  <button
+                    v-for="cat in quickEditCategories"
+                    :key="cat.name"
+                    type="button"
+                    @click="editForm.category = cat.name"
+                    :class="[
+                      'px-3 py-1.5 rounded-lg text-xs font-medium transition-all border-2',
+                      editForm.category === cat.name
+                        ? 'bg-indigo-500 text-white border-indigo-500 shadow-md'
+                        : 'bg-white border-gray-200 text-gray-600 hover:border-indigo-200 hover:bg-indigo-50'
+                    ]"
+                  >
+                    {{ cat.emoji }} {{ cat.name }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prioridade -->
+            <div>
+              <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                <span class="text-lg">🎯</span>
+                Prioridade
+              </label>
+              <div class="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  @click="editForm.priority = 'Low'"
+                  :class="[
+                    'py-3 px-2 rounded-xl font-medium text-sm transition-all border-2',
+                    editForm.priority === 'Low'
+                      ? 'bg-emerald-500 text-white border-emerald-500 shadow-lg scale-105'
+                      : 'bg-white border-gray-200 text-gray-700 hover:border-emerald-300 hover:bg-emerald-50',
+                  ]"
+                >
+                  🌱 Baixa
+                </button>
+                <button
+                  type="button"
+                  @click="editForm.priority = 'Medium'"
+                  :class="[
+                    'py-3 px-2 rounded-xl font-medium text-sm transition-all border-2',
+                    editForm.priority === 'Medium'
+                      ? 'bg-amber-500 text-white border-amber-500 shadow-lg scale-105'
+                      : 'bg-white border-gray-200 text-gray-700 hover:border-amber-300 hover:bg-amber-50',
+                  ]"
+                >
+                  ⚡ Média
+                </button>
+                <button
+                  type="button"
+                  @click="editForm.priority = 'High'"
+                  :class="[
+                    'py-3 px-2 rounded-xl font-medium text-sm transition-all border-2',
+                    editForm.priority === 'High'
+                      ? 'bg-red-500 text-white border-red-500 shadow-lg scale-105'
+                      : 'bg-white border-gray-200 text-gray-700 hover:border-red-300 hover:bg-red-50',
+                  ]"
+                >
+                  🔥 Alta
+                </button>
+              </div>
+            </div>
+
+            <!-- Botões -->
+            <div class="flex gap-3 pt-4">
+              <button
+                type="button"
+                @click="showEditModal = false"
+                class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-all"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                :disabled="editLoading"
+                class="flex-1 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                <span v-if="editLoading" class="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                <span v-if="editLoading">Salvando...</span>
+                <template v-else>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Salvar Alterações</span>
+                </template>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup>
@@ -255,8 +495,30 @@ const router = useRouter()
 const taskStore = useTaskStore()
 const authStore = useAuthStore()
 const sortBy = ref('default')
+const selectedCategory = ref(null)
 const showDeleteModal = ref(false)
 const taskToDelete = ref(null)
+const showEditModal = ref(false)
+const taskToEdit = ref(null)
+const editLoading = ref(false)
+
+// Formulário de edição
+const editForm = ref({
+  title: '',
+  description: '',
+  category: '',
+  priority: 'Medium',
+  isCompleted: false
+})
+
+// Categorias rápidas para edição
+const quickEditCategories = [
+  { name: 'Trabalho', emoji: '💼' },
+  { name: 'Estudos', emoji: '📚' },
+  { name: 'Pessoal', emoji: '👤' },
+  { name: 'Saúde', emoji: '💪' },
+  { name: 'Casa', emoji: '🏠' },
+]
 
 // Computed properties para informações do usuário
 const userName = computed(() => authStore.currentUser?.name || authStore.currentUser?.email || 'Usuário')
@@ -275,9 +537,25 @@ onMounted(() => {
   taskStore.fetchTasks()
 })
 
+// Computed property para categorias disponíveis
+const availableCategories = computed(() => {
+  const categories = taskStore.tasks
+    .map(task => task.category)
+    .filter(category => category && category.trim() !== '')
+  return [...new Set(categories)].sort()
+})
+
+// Computed property para filtrar por categoria
+const filteredTasks = computed(() => {
+  if (!selectedCategory.value) {
+    return taskStore.tasks
+  }
+  return taskStore.tasks.filter(task => task.category === selectedCategory.value)
+})
+
 // Computed property para ordenar as tarefas
 const sortedTasks = computed(() => {
-  const tasks = [...taskStore.tasks]
+  const tasks = [...filteredTasks.value]
   
   if (sortBy.value === 'name') {
     return tasks.sort((a, b) => a.title.localeCompare(b.title))
@@ -296,6 +574,22 @@ const sortedTasks = computed(() => {
   return tasks
 })
 
+// Mapeamento de categorias para emojis
+const categoryEmojiMap = {
+  'Trabalho': '💼',
+  'Estudos': '📚',
+  'Pessoal': '👤',
+  'Saúde': '💪',
+  'Financeiro': '💰',
+  'Casa': '🏠',
+  'Lazer': '🎮',
+  'Família': '👨‍👩‍👧‍👦'
+}
+
+const getCategoryEmoji = (category) => {
+  return categoryEmojiMap[category] || '🏷️'
+}
+
 const toggleTask = async (task) => {
   await taskStore.updateTask(task.id, {
     ...task,
@@ -313,6 +607,38 @@ const confirmDelete = async () => {
     await taskStore.deleteTask(taskToDelete.value.id)
     showDeleteModal.value = false
     taskToDelete.value = null
+  }
+}
+
+const editTask = (task) => {
+  taskToEdit.value = task
+  editForm.value = {
+    title: task.title,
+    description: task.description || '',
+    category: task.category || '',
+    priority: task.priority,
+    isCompleted: task.isCompleted
+  }
+  showEditModal.value = true
+}
+
+const saveEdit = async () => {
+  if (!taskToEdit.value) return
+  
+  editLoading.value = true
+  try {
+    const updatedTask = {
+      ...taskToEdit.value,
+      ...editForm.value
+    }
+    
+    await taskStore.updateTask(taskToEdit.value.id, updatedTask)
+    showEditModal.value = false
+    taskToEdit.value = null
+  } catch (error) {
+    console.error('Erro ao atualizar tarefa:', error)
+  } finally {
+    editLoading.value = false
   }
 }
 

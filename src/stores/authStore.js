@@ -85,10 +85,29 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    initAuth() {
-      if (this.token) {
-        this.setAuthHeader()
-      }
+    async fetchProfile() {
+        try {
+          const response = await axios.get(`${API_URL}/auth/me`)
+          this.user = {
+            email: response.data.email,
+            name: response.data.name
+          }
+          return true
+        } catch {
+          this.logout()
+          return false
+        }
+    },
+  
+    async initAuth() {
+        if (this.token) {
+            this.setAuthHeader()
+            await this.fetchProfile()
+        }
+    },
+
+    clearError() {
+        this.error = null
     }
   }
 })

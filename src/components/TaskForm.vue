@@ -41,6 +41,50 @@
 
       <div>
         <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+          <span class="text-lg">🏷️</span>
+          Categoria
+        </label>
+        <div class="space-y-3">
+          <input
+            v-model="form.category"
+            type="text"
+            list="categories"
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none bg-gray-50 focus:bg-white"
+            placeholder="Ex: Trabalho, Estudos, Pessoal..."
+          />
+          <datalist id="categories">
+            <option value="Trabalho"></option>
+            <option value="Estudos"></option>
+            <option value="Pessoal"></option>
+            <option value="Saúde"></option>
+            <option value="Financeiro"></option>
+            <option value="Casa"></option>
+            <option value="Lazer"></option>
+            <option value="Família"></option>
+          </datalist>
+          
+          <!-- Categorias Rápidas -->
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="cat in quickCategories"
+              :key="cat.name"
+              type="button"
+              @click="form.category = cat.name"
+              :class="[
+                'px-3 py-1.5 rounded-lg text-xs font-medium transition-all border-2',
+                form.category === cat.name
+                  ? 'bg-indigo-500 text-white border-indigo-500 shadow-md'
+                  : 'bg-white border-gray-200 text-gray-600 hover:border-indigo-200 hover:bg-indigo-50'
+              ]"
+            >
+              {{ cat.emoji }} {{ cat.name }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
           <span class="text-lg">🎯</span>
           Prioridade
         </label>
@@ -111,9 +155,19 @@ import { useTaskStore } from '@/stores/taskStore'
 const taskStore = useTaskStore()
 const loading = ref(false)
 
+// Categorias rápidas com emojis
+const quickCategories = [
+  { name: 'Trabalho', emoji: '💼' },
+  { name: 'Estudos', emoji: '📚' },
+  { name: 'Pessoal', emoji: '👤' },
+  { name: 'Saúde', emoji: '💪' },
+  { name: 'Casa', emoji: '🏠' },
+]
+
 const form = ref({
   title: '',
   description: '',
+  category: '',
   priority: 'Medium',
   isCompleted: false,
 })
@@ -126,6 +180,7 @@ const handleSubmit = async () => {
     form.value = {
       title: '',
       description: '',
+      category: '',
       priority: 'Medium',
       isCompleted: false,
     }
