@@ -1,25 +1,24 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
+  <div class="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4 relative">
+    <div class="absolute top-4 right-4">
+      <ThemeToggle />
+    </div>
     <div class="w-full max-w-md">
-      <!-- Logo/Header -->
       <div class="text-center mb-8 animate-fade-in">
         <div class="inline-block mb-4">
-          <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl shadow-2xl flex items-center justify-center transform hover:scale-110 transition-transform duration-300">
-            <span class="text-5xl">✨</span>
+          <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl shadow-2xl flex items-center justify-center transform hover:scale-110 transition-transform duration-300">
+            <ClipboardIcon :size="48" color="white" />
           </div>
         </div>
-        <h1 class="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2 pb-2 leading-tight">
-          Task Manager
+        <h1 class="text-4xl font-extrabold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-2 pb-2 leading-tight">
+          Taskfy
         </h1>
-        <p class="text-gray-600 text-lg">Bem-vindo de volta! 👋</p>
       </div>
 
-      <!-- Login Card -->
-      <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-gray-100 animate-slide-up">
+      <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-gray-100 dark:border-gray-700 animate-slide-up">
         <form @submit.prevent="handleLogin" class="space-y-6">
-          <!-- Email Field -->
           <div class="space-y-2">
-            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700">
+            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
               <span class="text-lg">📧</span>
               Email
             </label>
@@ -28,10 +27,10 @@
                 v-model="form.email"
                 type="email"
                 required
-                class="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-400"
+                class="w-full pl-12 pr-4 py-3.5 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-1 focus:ring-green-500/30 focus:border-green-500 transition-all outline-none bg-gray-50 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 placeholder="seu@email.com"
               />
-              <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+              <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                 </svg>
@@ -39,9 +38,8 @@
             </div>
           </div>
 
-          <!-- Password Field -->
           <div class="space-y-2">
-            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700">
+            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
               <span class="text-lg">🔒</span>
               Senha
             </label>
@@ -50,10 +48,10 @@
                 v-model="form.password"
                 :type="showPassword ? 'text' : 'password'"
                 required
-                class="w-full pl-12 pr-12 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-400"
+                class="w-full pl-12 pr-12 py-3.5 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-1 focus:ring-green-500/30 focus:border-green-500 transition-all outline-none bg-gray-50 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 placeholder="••••••••"
               />
-              <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+              <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
@@ -61,7 +59,7 @@
               <button
                 type="button"
                 @click="showPassword = !showPassword"
-                class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                 tabindex="-1"
               >
                 <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,7 +73,6 @@
             </div>
           </div>
 
-          <!-- Error Message -->
           <Transition name="error">
             <div v-if="authStore.error" class="bg-red-50 border-2 border-red-200 text-red-600 p-4 rounded-xl text-sm font-medium flex items-center gap-2">
               <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,48 +82,38 @@
             </div>
           </Transition>
 
-          <!-- Submit Button -->
           <button
             type="submit"
             :disabled="authStore.loading"
-            class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-bold text-lg hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+            class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg hover:from-green-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
           >
             <span v-if="authStore.loading" class="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
             <span v-if="authStore.loading">Entrando...</span>
             <template v-else>
+              <LoginIcon :size="20" color="white" />
               <span>Entrar</span>
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
             </template>
           </button>
         </form>
 
-        <!-- Divider -->
         <div class="relative my-8">
           <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t-2 border-gray-200"></div>
+            <div class="w-full border-t-2 border-gray-200 dark:border-gray-700"></div>
           </div>
           <div class="relative flex justify-center text-sm">
-            <span class="px-4 bg-white text-gray-500 font-medium">Novo por aqui?</span>
+            <span class="px-4 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 font-medium">Novo por aqui?</span>
           </div>
         </div>
 
-        <!-- Register Link -->
         <router-link
           to="/register"
-          class="block w-full text-center py-4 px-4 border-2 border-indigo-200 text-indigo-600 rounded-xl font-bold text-lg hover:bg-indigo-50 hover:border-indigo-300 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+          class="block w-full text-center py-4 px-4 border-2 border-green-200 dark:border-green-700 text-green-600 dark:text-green-400 rounded-xl font-bold text-lg hover:bg-green-50 dark:hover:bg-green-900/20 hover:border-green-300 dark:hover:border-green-600 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
         >
           <span class="flex items-center justify-center gap-2">
+            <UserPlusIcon :size="20" color="currentColor" />
             <span>Criar uma conta</span>
-            <span>🚀</span>
           </span>
         </router-link>
-      </div>
-
-      <!-- Footer -->
-      <div class="text-center mt-8 text-gray-500 text-sm">
-        <p>Organize suas tarefas com estilo e produtividade ✨</p>
       </div>
     </div>
   </div>
@@ -136,6 +123,10 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
+import ClipboardIcon from '@/components/icons/ClipboardIcon.vue'
+import LoginIcon from '@/components/icons/LoginIcon.vue'
+import UserPlusIcon from '@/components/icons/UserPlusIcon.vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -159,7 +150,6 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-/* Animações */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -190,7 +180,6 @@ const handleLogin = async () => {
   animation: slide-up 0.6s ease-out 0.2s both;
 }
 
-/* Transição de erro */
 .error-enter-active,
 .error-leave-active {
   transition: all 0.3s ease;
