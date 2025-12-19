@@ -1,4 +1,4 @@
-# 📋 Taskfy - Gerenciador de Tarefas Moderno
+# 📋 Taskfy
 
 <div align="center">
 
